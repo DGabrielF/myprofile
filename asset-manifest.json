@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/DGabrielF/myprofile/static/css/main.073c9b0a.css",
-    "main.js": "/DGabrielF/myprofile/static/js/main.dd4f56ab.js",
-    "static/js/787.2772a1df.chunk.js": "/DGabrielF/myprofile/static/js/787.2772a1df.chunk.js",
-    "static/media/logo.svg": "/DGabrielF/myprofile/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
-    "index.html": "/DGabrielF/myprofile/index.html",
-    "main.073c9b0a.css.map": "/DGabrielF/myprofile/static/css/main.073c9b0a.css.map",
-    "main.dd4f56ab.js.map": "/DGabrielF/myprofile/static/js/main.dd4f56ab.js.map",
-    "787.2772a1df.chunk.js.map": "/DGabrielF/myprofile/static/js/787.2772a1df.chunk.js.map"
+    "main.css": "/myprofile/static/css/main.326621b8.css",
+    "main.js": "/myprofile/static/js/main.0cc20ba4.js",
+    "static/js/787.2772a1df.chunk.js": "/myprofile/static/js/787.2772a1df.chunk.js",
+    "static/media/logo.svg": "/myprofile/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/myprofile/index.html",
+    "main.326621b8.css.map": "/myprofile/static/css/main.326621b8.css.map",
+    "main.0cc20ba4.js.map": "/myprofile/static/js/main.0cc20ba4.js.map",
+    "787.2772a1df.chunk.js.map": "/myprofile/static/js/787.2772a1df.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.073c9b0a.css",
-    "static/js/main.dd4f56ab.js"
+    "static/css/main.326621b8.css",
+    "static/js/main.0cc20ba4.js"
   ]
 }
