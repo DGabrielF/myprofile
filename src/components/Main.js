@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import Menu from "./Menu";
-import StorageItem from "./StorageItem";
+import SMASection from "./SMA/SMASection";
+// import StorageItemSection from "./StorageItemSection";
+
 
 export default class Main extends Component {
   state = {
@@ -22,10 +24,16 @@ export default class Main extends Component {
     this.setState({menuSelected: {number: e.target.id, name: e.target.textContent}})
     // this.handleMenu(e)
   }
+  addingStorageItem = (e) => {
+    let form = document.querySelector(".listedItems")
+    console.log(form)
+    form.innerHTML += `<div>`
+  }
+
   render() {
     const {menuMode, menuSelected, menuItems, logged} = this.state
     return (
-      <div className="flex flex-col">
+      <div className="">
         <Menu 
         menuMode={menuMode}
         menuSelected={menuSelected}
@@ -34,15 +42,7 @@ export default class Main extends Component {
         handleSection={this.handleSection}
         logged={logged}
         />
-        <div 
-        className="text-center text-2xl pb-2">
-          Adicionar produto ao estoque
-        </div>
-        <StorageItem />
-        <div className="w-[90%] mx-auto mt-3 flex justify-between">
-          <button className="w-[45%] smaButtons">Adicionar</button>
-          <button className="w-[45%] smaButtons">Salvar</button>
-        </div>
+        <SMASection />
       </div>
     )
   }
