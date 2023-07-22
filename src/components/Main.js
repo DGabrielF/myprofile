@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Menu from "./Menu";
+import SMABought from "./SMA/SMABought";
 import SMASection from "./SMA/SMASection";
 // import StorageItemSection from "./StorageItemSection";
 
@@ -33,7 +34,7 @@ export default class Main extends Component {
   render() {
     const {menuMode, menuSelected, menuItems, logged} = this.state
     return (
-      <div className="">
+      <div className="bg-slate-400 h-screen">
         <Menu 
         menuMode={menuMode}
         menuSelected={menuSelected}

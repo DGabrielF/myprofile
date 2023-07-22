@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import SMABought from "../SMABought";
 import SMAHome from "../SMAHome";
 import SMASideBar from "../SMASideBar";
 
@@ -27,9 +28,9 @@ export default class SMASection extends Component {
     const {sideBarIsOpen, itemSelected, sideBarItems} = this.state
     let page;
     if (itemSelected.name === "Início") {
-      page = (
-        <SMAHome />
-      )
+      page = (<SMAHome />)
+    } else if (itemSelected.name === "Entrada de itens") {
+      page = (<SMABought />)
     }
     return (
       <div className="pt-8 flex">
