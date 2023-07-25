@@ -4,7 +4,7 @@
 
 @layer components {
   .smaPageTitle {
-    @apply text-3xl font-black flex justify-center
+    @apply text-3xl font-black flex justify-center py-2
   }
   .smaSeparator {
     @apply bg-slate-700 w-[95%] mx-auto h-[2px] my-1 rounded-full
@@ -16,6 +16,10 @@
     @apply w-full max-w-[300px] hover:font-semibold border-2 bg-slate-100 hover:bg-lime-100 border-slate-300 hover:border-lime-600 rounded-lg
   }
   .smaForm {
+    @apply bg-slate-500 w-[95%] mx-auto border-2 border-slate-500 rounded-lg p-2 flex justify-between gap-2
+  }
+
+  .smaList {
     @apply bg-slate-500 w-[95%] mx-auto border-2 border-slate-500 rounded-lg p-2 flex justify-between gap-2
   }
 }

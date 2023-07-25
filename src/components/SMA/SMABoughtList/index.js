@@ -1,41 +1,37 @@
 import React from "react";
-import { FiEdit } from "react-icons/fi";
+import { FiEdit, FiTrash2 } from "react-icons/fi";
 
-export default function SMABoughtList(itemsList) {
+export default function SMABoughtList({itemsList, handleDeleteItem, handleEditItem}) {
   let boughtList;
-  console.log('itemsList', itemsList, typeof itemsList)
-  console.log(Object.keys(itemsList).length)
-  if (Object.keys(itemsList).length !== false) {
-    boughtList = (
-      <div>Suas compras aparecerão aqui (falso)</div>
-    )
-  } else {
-    boughtList = (
-      <div>Suas compras aparecerão aqui (verdadeiro)</div>
-    )
-  }
-  if (Object.keys(itemsList).length > 0) {
+  if (Object.keys(itemsList).length !== 0) {
     boughtList = itemsList.map((item, index) => {
       return (
-        <div>
-          <div className="w-[39%] min-w-[30px]">{item.name}</div>
-          <div className="w-[39%] min-w-[30px]">{item.company}</div>
+        <div className="smaItemOfList flex">
+          <div name="name" className="w-[39%] min-w-[30px]">{item.name}</div>
+          <div name="company" className="w-[39%] min-w-[30px]">{item.company}</div>
           <div className="w-[20%] min-w-[80px] flex justify-between">
-            <div>{item.quantity}</div>
-            <button>
+            <div name="quantity">{item.quantity}</div>
+            <button
+            onClick={(e) => handleEditItem(e)}>
               <FiEdit />
+            </button>
+            <button 
+            onClick={(e) => handleDeleteItem(e)}
+            className="text-black hover:text-orange-900">
+              <FiTrash2 />
             </button>
           </div>
         </div>
       )})
   } else {
     boughtList = (
-      <div>Suas compras aparecerão aqui</div>
+      <div className="flex justify-center">Suas compras aparecerão aqui</div>
     )
   }
+
   return (    
     
-    <div className="smaForm">
+    <div className="smaList flex flex-col">
       {boughtList}
     </div>
   )

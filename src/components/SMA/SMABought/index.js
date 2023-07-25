@@ -16,9 +16,7 @@ export default class SMABought extends Component {
   handleChangeInputs = (e) => {
     const {item} = this.state
     const { name, value } = e.currentTarget;
-    console.log(name)
     this.setState({ item: {...item, [name]: value}})
-    console.log(this.state)
   }
 
   quantityInputRestriction = (e) => {
@@ -38,28 +36,68 @@ export default class SMABought extends Component {
   }
 
   handleListItems = (e) => {
-    const { item, itemsList } = this.state
-    console.log(item)
+    const { item } = this.state
     if (item.name === '') {
       console.log("Toastify: O produto necessita de um nome")
     } else if (item.quantity === 0) {
       console.log('Toastify: Como assim você comprou "zero" produto?')
     } else {
-      this.setState({itemsList: {...itemsList, item}})
+      this.setState((prevState) => ({
+        itemsList: [...prevState.itemsList, item]
+      }))
     }
   }
+
+  handleDeleteItem = (e) => {
+    const { itemsList } = this.state
+    const parentDiv =(e.target.closest('.smaItemOfList'))
+    const name = parentDiv.querySelector(`[name='name']`).innerText
+    const company = parentDiv.querySelector(`[name='company']`).innerText
+    const novaLista = itemsList.filter((item) => (item.name !== name && item.company !== company));
+    this.setState({
+      itemsList: [...novaLista]
+    })
+  }
+
+  handleEditItem = (e) => {
+    const { itemsList } = this.state
+    const parentDiv =(e.target.closest('.smaItemOfList'))
+    const name = parentDiv.querySelector(`[name='name']`).innerText
+    const company = parentDiv.querySelector(`[name='company']`).innerText
+    const quantity = parentDiv.querySelector(`[name='quantity']`).innerText
+    console.log(parentDiv.querySelector(`[name='quantity']`)) 
+    console.log(parentDiv.querySelector(`[name='quantity']`).value) 
+    const novaLista = itemsList.filter((item) => (item.name !== name && item.company !== company));
+    document.querySelector(`.smaForm [name='name']`).value = name
+    document.querySelector(`.smaForm [name='company']`).value = company
+    document.querySelector(`.smaForm [name='quantity']`).value = quantity
+    this.setState({
+      item: {
+        name: name,
+        company:company,
+        quantity:quantity,
+      },
+      itemsList: [...novaLista],
+    })
+  }
+  
 
   handleSave = (e) => {
     console.log(this.state)
   }
 
   render() {
+    const { itemsList } = this.state
     return (    
     <div className="w-full h-full">
       <div className="smaPageTitle">Título da página</div>
       <div className="smaSeparator"></div>
       <div className="boughhtItemsList">
-      <SMABoughtList />
+      <SMABoughtList 
+      itemsList={itemsList}
+      handleDeleteItem={this.handleDeleteItem}
+      handleEditItem={this.handleEditItem}
+      />
       <div className="smaSeparator"></div>
       </div>
       <SMAForm 
