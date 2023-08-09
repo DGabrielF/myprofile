@@ -3,6 +3,14 @@
 @tailwind utilities;
 
 @layer components {
+  .inputs {
+    @apply w-full px-2 text-zinc-300 hover:text-zinc-800 focus:text-zinc-800 text-right font-semibold bg-zinc-700 hover:bg-zinc-400 focus:bg-zinc-400 mx-auto border-2 border-zinc-900 hover:border-zinc-600 focus:border-zinc-600 rounded-xl
+  }
+  .buttons {
+    @apply w-full mt-2 px-2 text-zinc-100 hover:text-zinc-800 focus:text-zinc-800 text-center font-semibold bg-violet-900 hover:bg-zinc-400 focus:bg-zinc-400 mx-auto border-2 border-zinc-900 hover:border-zinc-600 focus:border-zinc-600 rounded-xl
+  }
+  /* Aplicações */
+  /* SMA */
   .smaPageTitle {
     @apply text-3xl font-black flex justify-center py-2
   }
@@ -16,10 +24,44 @@
     @apply w-full max-w-[300px] hover:font-semibold border-2 bg-slate-100 hover:bg-lime-100 border-slate-300 hover:border-lime-600 rounded-lg
   }
   .smaForm {
-    @apply bg-slate-500 w-[95%] mx-auto border-2 border-slate-500 rounded-lg p-2 flex justify-between gap-2
+    @apply bg-slate-500 w-[95%] mx-auto border-2 border-slate-500 rounded-lg p-2 flex  flex-col justify-between gap-2
   }
-
   .smaList {
     @apply bg-slate-500 w-[95%] mx-auto border-2 border-slate-500 rounded-lg p-2 flex justify-between gap-2
+  }
+  /* AboutMe */
+  .abMeBg {
+    @apply bg-zinc-900 w-full h-full flex gap-1 mr-1
+  }
+  
+  /* DevArea */
+  .devaBg {
+    @apply bg-zinc-900 w-full h-full py-1 flex gap-1
+  }
+  .devaTopic {
+    @apply bg-zinc-500 w-[98%] mx-auto rounded-2xl px-2 pt-1 pb-2 text-center flex flex-col gap-1
+  }
+  .devaItem {
+    @apply bg-zinc-300 w-[99%] mx-auto rounded-2xl px-2 py-1
+  }
+
+  .abMeSidebarOpen {
+    @apply bg-zinc-500 max-w-[50%] min-w-[50%] mx-auto rounded-r-2xl pl-2 pr-1 pt-1 pb-2 text-center flex gap-1
+  }
+
+  .abMeSidebarClosed {
+    @apply bg-zinc-500 max-w-[40%] mx-auto rounded-r-2xl pl-2 pr-1 pt-1 pb-2 text-right flex gap-1
+  }
+
+  .abMeSidebarOpenButtonsList {
+    @apply w-[90%] flex flex-col gap-1
+  }
+
+  .abMeSidebarOpenCloseButton {
+    @apply hover:bg-zinc-400 w-[10%] rounded-r-2xl flex justify-center items-center
+  }
+
+  .abMeSidebarClosedOpenButton {
+    @apply hover:bg-zinc-400 w-full rounded-r-2xl flex justify-center items-center
   }
 }

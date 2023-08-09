@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+import { getFirestore, collection, getDocs } from "firebase/firestore"
 import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -13,3 +14,19 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app)
+export const db = getFirestore(app)
+
+export const fetchData = async (setFunction, collectionName) => {
+  try{
+    const collectionRef = collection(db, collectionName);
+    const snapshot = await getDocs(collectionRef);
+
+    const dataFromFirestore = snapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    setFunction(dataFromFirestore);
+  } catch (error) {
+    console.error('Erro ao buscar dados:', error);
+  }
+};

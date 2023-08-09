@@ -4,12 +4,12 @@ export default function Card ( {item, index} ) {
   return (
     <div
     key={index}
-    className="border-2 w-[300px] h-[360px] rounded-lg flex flex-col justify-between">
+    className="bg-slate-300 border-2 w-[300px] h-[360px] rounded-lg flex flex-col justify-between">
       <div
       className="mx-1 h-[75%] mt-1">
         <img 
         src={item.image}
-        alt="SMA (Storeroom Monitoring Application): Auxiliar de consumo, compras e estoque de itens domésticos"
+        alt={`${item.acronym} (${item.name}): ${item.description}`}
         className="h-full mx-auto mt-2 rounded-lg">
         </img>
       </div>
