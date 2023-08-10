@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { fetchData } from "../../../../firebase-config";
+import { FBFetchData } from "../../../../firebase-config";
 
 export default function ApplicationsList() {
   const [applications, setApplications] = useState([])
 
-  useEffect(() => {fetchData(setApplications, "Applications")}, []);
+  useEffect(() => {FBFetchData(setApplications, "Applications")}, []);
   
   return (
     <div className="bg-slate-500 rounded-xl p-2 flex flex-col gap-2">

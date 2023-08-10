@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs } from "firebase/firestore"
+import { getFirestore, collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore"
 import { getAuth } from 'firebase/auth'
 
 const firebaseConfig = {
@@ -16,7 +16,7 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app)
 export const db = getFirestore(app)
 
-export const fetchData = async (setFunction, collectionName) => {
+export const FBFetchData = async (setFunction, collectionName) => {
   try{
     const collectionRef = collection(db, collectionName);
     const snapshot = await getDocs(collectionRef);
@@ -30,3 +30,40 @@ export const fetchData = async (setFunction, collectionName) => {
     console.error('Erro ao buscar dados:', error);
   }
 };
+
+export const FBSingleQueryById = async (setFunction, collectionName, reference) => {
+  try{
+    const collectionRef = collection(db, collectionName);
+    const querySnapshot = await getDocs(collectionRef);
+
+    const dataFromFirestore = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    dataFromFirestore.map((item) => {
+      if (item.id === reference) {
+        setFunction(item);
+      }
+    })
+  } catch (error) {
+    console.error('Erro ao buscar dados:', error);
+  }
+}
+
+export const FBUpdateDoc = async (collectionName, reference, newObject) => {
+  try {
+    const documentRef = doc(db, collectionName, reference);
+    await updateDoc(documentRef, newObject)
+  } catch (error) {
+    console.error('Erro ao atualizar dados:', error);
+  }
+}
+
+export const FBDeleteDoc = async (collectionName, reference) => {
+  try {
+    const documentRef = doc(db, collectionName, reference);
+    await deleteDoc(documentRef)
+  } catch (error) {
+    console.error('Erro ao excluir dados:', error);
+  }
+}

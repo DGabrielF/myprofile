@@ -5,15 +5,14 @@ import CreateApplication from "./CreateApplication";
 import EditApplication from "./EditApplication";
 
 export default function DevArea() {
-  const [sideBar, setSideBar] = useState(false);
+  const [sideBar, setSideBar] = useState(true);
   const [section, setSection] = useState("addApp");
   const menuItems = [
     {
       subSection: "Aplicações",
       items: [
-        {id:"addApp", title:"Adicionar aplicação", content: <CreateApplication />},
-        {id:"editApp", title:"Editar aplicação", content: <EditApplication />},
-        {id:"delApp", title:"Remover aplicação", content: "delApp"},
+        {id:"addApp", title:"Adicionar", content: <CreateApplication />},
+        {id:"editApp", title:"Editar", content: <EditApplication />},
       ]
     },
     {
