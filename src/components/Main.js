@@ -7,12 +7,14 @@ import AboutMe from "./Section/AboutMe";
 import DevArea from "./Section/DevArea";
 import Modal from "./Modal";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "firebase/auth";
-import { auth } from "../firebase-config";
+import { auth, db } from "../firebase-config";
+import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+
 
 export default class Main extends Component {
   state = {
     menuMode: false,
-    user: {email:"", password:"", logged: false},
+    user: {uid:"", email:"", password:"", logged: false},
     menuSelected: {number: 0, name: "Home", section: <Initial />},
     menuItems: [
       {number: 0, name: "Home", section: <Initial />},
@@ -52,7 +54,7 @@ export default class Main extends Component {
     try {
       await signInWithEmailAndPassword(auth, user.email, user.password);
       this.setState({
-        user: {...user, logged: true},
+        user: {...user, uid: auth.currentUser.uid, logged: true},
         modal: {isOn: false, content: undefined}
       })
       alert('Conectado!')
@@ -65,8 +67,13 @@ export default class Main extends Component {
     const { user } = this.state
     try {
       await createUserWithEmailAndPassword(auth, user.email, user.password);
-      this.handleEmail(e, true)
-      this.handlePassword(e, true)
+      await addDoc(collection(db, "Users"), {
+        id:auth.currentUser.uid, 
+        visible:false,
+        collaborative: false,
+      })
+      this.handleEmail(e, true);
+      this.handlePassword(e, true);
       alert('Cadastro realizado com sucesso!');
     } catch (error) {
       alert('Erro ao realizar o cadastro: ' + error.message);
@@ -130,6 +137,8 @@ export default class Main extends Component {
         <div className="h-full pt-8">
           {menuSelected.section}
         </div>
+        <button
+        onClick={(e) => {console.log(user)}}>teste</button>
       </div>
     )
   }

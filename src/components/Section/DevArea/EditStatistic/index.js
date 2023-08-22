@@ -2,36 +2,34 @@ import React, { useEffect, useState } from "react";
 import { FBFetchData, FBSingleQueryById, FBUpdateDoc, FBDeleteDoc } from "../../../../firebase-config";
 import EditArea from "./EditArea";
 
-export default function EditApplication() {
-  const [applications, setApplications] = useState([]);
+export default function EditStatistic() {
+  const [statistics, setStatistics] = useState([]);
   const [openedItem, setOpenedItem] = useState("");
   const [editMode, setEditMode] = useState(false);
-  const [applicationToEdit, setApplicationToEdit] = useState([]);
+  const [statisticToEdit, setStatisticToEdit] = useState([]);
 
   const [name, setName] = useState("");
-  const [acronym, setAcronym] = useState("");
   const [description, setDescription] = useState("");
   const [image, setImage] = useState("");
   const [page, setPage] = useState("");
 
-  const coll = "Applications"
+  const coll = "Statistics"
 
   let content;
-  if (applications.length === 0) {
+  if (statistics.length === 0) {
     content = "Ainda não há aplicações cadastradas"
   } else {
     content = (
-      applications.map((item) => {
+      statistics.map((item) => {
         return (
           <div
           id={item.id}
           key={item.id}
           onClick={(e) => handleEdit(e)}
           className="bg-zinc-600 px-2 rounded-xl group">
-            {`${item.acronym} (${item.name})`}
+            {item.name}
             <EditArea 
             setName={setName}
-            setAcronym={setAcronym}
             setDescription={setDescription}
             setImage={setImage}
             setPage={setPage}
@@ -58,27 +56,26 @@ export default function EditApplication() {
       setOpenedItem(e.currentTarget.id);
       setEditMode(true);
     }
-    FBSingleQueryById(setApplicationToEdit, coll, e.currentTarget.id);
+    FBSingleQueryById(setStatisticToEdit, coll, e.currentTarget.id);
   }
 
   function handleSubmit(e) {
     FBUpdateDoc(coll, e.currentTarget.id, {
-      name: name?name:applicationToEdit.name,
-      acronym: acronym?acronym:applicationToEdit.acronym,
-      description: description?description:applicationToEdit.description,
-      image: image?image:applicationToEdit.image,
-      page: page?page:applicationToEdit.page,
+      name: name?name:statisticToEdit.name,
+      description: description?description:statisticToEdit.description,
+      image: image?image:statisticToEdit.image,
+      page: page?page:statisticToEdit.page,
     })
   }
 
   function handleDelete(e) {
     FBDeleteDoc(coll, e.currentTarget.id)
-    FBFetchData(setApplications, coll)
+    FBFetchData(setStatistics, coll)
   }
 
-  useEffect(() => {FBFetchData(setApplications, coll)}, []);
+  useEffect(() => {FBFetchData(setStatistics, coll)}, []);
   return (
-    <div className="bg-slate-500 rounded-xl p-2  mt-1 flex flex-col gap-2">
+    <div className="bg-slate-500 rounded-xl p-2 mt-1 flex flex-col gap-2">
       {content}
     </div>
   )

@@ -3,6 +3,12 @@ import SidebarOpen from "../../SidebarOpen";
 import SidebarClosed from "../../SidebarClosed";
 import CreateApplication from "./CreateApplication";
 import EditApplication from "./EditApplication";
+import CreateStatistic from "./CreateStatistic ";
+import EditStatistic from "./EditStatistic";
+import CreateCourse from "./CreateCourse";
+import EditCouses from "./EditCourses";
+import CreateSkill from "./CreateSkill";
+import EditSkills from "./EditSkills";
 
 export default function DevArea() {
   const [sideBar, setSideBar] = useState(true);
@@ -11,16 +17,15 @@ export default function DevArea() {
     {
       subSection: "Aplicações",
       items: [
-        {id:"addApp", title:"Adicionar", content: <CreateApplication />},
-        {id:"editApp", title:"Editar", content: <EditApplication />},
+        {id:"addApp", title:"Adicionar aplicação", content: <CreateApplication />},
+        {id:"editApp", title:"Editar aplicação", content: <EditApplication />},
       ]
     },
     {
       subSection: "Estatísticas",
       items: [
-        {id:"addStat", title:"Adicionar estatísticas", content: "teste"},
-        {id:"editStat", title:"Editar estatísticas", content: "teste"},
-        {id:"delStat", title:"Remover estatísticas", content: "teste"},
+        {id:"addStat", title:"Adicionar estatísticas", content: <CreateStatistic />},
+        {id:"editStat", title:"Editar estatísticas", content: <EditStatistic />},
       ]
     },
     {
@@ -28,11 +33,10 @@ export default function DevArea() {
       items: [
         {id:"editPresentation", title:"Editar apresentação", content: "teste"},
         {id:"editCurricStyle", title:"Formato do currículo", content: "teste"},
-        {id:"addCourse", title:"Adicionar um curso", content: "teste"},
-        {id:"delCourse", title:"Remover um curso", content: "teste"},
-        {id:"addSkill", title:"Adicionar habilidade", content: "teste"},
-        {id:"editSkill", title:"Editar habilidade", content: "teste"},
-        {id:"delSkill", title:"Remover habilidade", content: "teste"},
+        {id:"addCourse", title:"Adicionar um curso", content: <CreateCourse />},
+        {id:"editCourse", title:"Editar cursos", content: <EditCouses />},
+        {id:"addSkill", title:"Adicionar habilidade", content: <CreateSkill />},
+        {id:"editSkill", title:"Editar habilidade", content: <EditSkills />},
         {id:"addHobby", title:"Adicionar um hobby", content: "teste"},
       ]
     }

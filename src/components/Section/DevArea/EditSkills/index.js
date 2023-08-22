@@ -1,40 +1,40 @@
 import React, { useEffect, useState } from "react";
-import { FBFetchData, FBSingleQueryById, FBUpdateDoc, FBDeleteDoc } from "../../../../firebase-config";
 import EditArea from "./EditArea";
+import { FBDeleteDoc, FBFetchData, FBSingleQueryById, FBUpdateDoc } from "../../../../firebase-config";
 
-export default function EditApplication() {
-  const [applications, setApplications] = useState([]);
+export default function EditCouses() {
+  const [skills, setSkills] = useState([]);
   const [openedItem, setOpenedItem] = useState("");
   const [editMode, setEditMode] = useState(false);
-  const [applicationToEdit, setApplicationToEdit] = useState([]);
-
+  const [skillToEdit, setSkillToEdit] = useState([]);
+  
   const [name, setName] = useState("");
-  const [acronym, setAcronym] = useState("");
+  const [type, setType] = useState("");
+  const [selfEvaluation, setSelfEvaluation] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
-  const [page, setPage] = useState("");
+  const [image, setImage] = useState([]);
 
-  const coll = "Applications"
+  const coll = "Skills"
 
   let content;
-  if (applications.length === 0) {
-    content = "Ainda não há aplicações cadastradas"
+  if (skills.length ===0 ) {
+    content = "Ainda não há habilidades cadastrados"
   } else {
     content = (
-      applications.map((item) => {
+      skills.map((item) => {
         return (
           <div
           id={item.id}
           key={item.id}
           onClick={(e) => handleEdit(e)}
           className="bg-zinc-600 px-2 rounded-xl group">
-            {`${item.acronym} (${item.name})`}
-            <EditArea 
+            {`${item.name}`}
+            <EditArea
             setName={setName}
-            setAcronym={setAcronym}
+            setType={setType}
+            setSelfEvaluation={setSelfEvaluation}
             setDescription={setDescription}
             setImage={setImage}
-            setPage={setPage}
             handleSubmit={handleSubmit}
             handleDelete={handleDelete}
             item={item}
@@ -43,7 +43,7 @@ export default function EditApplication() {
             />
           </div>
         )
-    })
+      })
     )
   }
 
@@ -58,25 +58,25 @@ export default function EditApplication() {
       setOpenedItem(e.currentTarget.id);
       setEditMode(true);
     }
-    FBSingleQueryById(setApplicationToEdit, coll, e.currentTarget.id);
+    FBSingleQueryById(setSkillToEdit, coll, e.currentTarget.id);
   }
 
   function handleSubmit(e) {
     FBUpdateDoc(coll, e.currentTarget.id, {
-      name: name?name:applicationToEdit.name,
-      acronym: acronym?acronym:applicationToEdit.acronym,
-      description: description?description:applicationToEdit.description,
-      image: image?image:applicationToEdit.image,
-      page: page?page:applicationToEdit.page,
+      name: name?name:skillToEdit.name,
+      type: type?type:skillToEdit.type,
+      selfEvaluation: selfEvaluation?selfEvaluation:skillToEdit.selfEvaluation,
+      description: description?description:skillToEdit.description,
+      image: image?image:skillToEdit.image,
     })
   }
 
   function handleDelete(e) {
     FBDeleteDoc(coll, e.currentTarget.id)
-    FBFetchData(setApplications, coll)
+    FBFetchData(setSkills, coll)
   }
 
-  useEffect(() => {FBFetchData(setApplications, coll)}, []);
+  useEffect(() => {FBFetchData(setSkills, coll)}, []);
   return (
     <div className="bg-slate-500 rounded-xl p-2  mt-1 flex flex-col gap-2">
       {content}
