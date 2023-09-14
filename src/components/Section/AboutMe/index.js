@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Presentation from "./Presentation";
 import SidebarOpen from "./SidebarOpen";
 import SidebarClosed from "../../SidebarClosed";
+import Courses from "./Courses";
 
 export default function AboutMe() {
   const [sideBar, setSideBar] = useState(false);
@@ -9,7 +10,7 @@ export default function AboutMe() {
   const menuItems = [
     {name:"apresentacao", title:"Apresentação", content: <Presentation />},
     {name:"curriculo", title:"Currículo", content: <Presentation />},
-    {name:"cursos", title:"Cursos", content: <Presentation />},
+    {name:"cursos", title:"Cursos", content: <Courses />},
     {name:"hobbies", title:"Hobbies", content: <Presentation />},
   ];
 

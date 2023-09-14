@@ -137,8 +137,6 @@ export default class Main extends Component {
         <div className="h-full pt-8">
           {menuSelected.section}
         </div>
-        <button
-        onClick={(e) => {console.log(user)}}>teste</button>
       </div>
     )
   }

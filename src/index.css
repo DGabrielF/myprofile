@@ -9,6 +9,9 @@
   .buttons {
     @apply w-full mt-2 px-2 text-zinc-100 hover:text-zinc-800 focus:text-zinc-800 text-center font-semibold bg-violet-900 hover:bg-zinc-400 focus:bg-zinc-400 mx-auto border-2 border-zinc-900 hover:border-zinc-600 focus:border-zinc-600 rounded-xl
   }
+  .normalText {
+    @apply px-2 text-lg font-semibold text-center
+  }
   /* Aplicações */
   /* SMA */
   .smaPageTitle {

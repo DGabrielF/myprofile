@@ -28,7 +28,7 @@ export default function EditCouses() {
           <div
           id={item.id}
           key={item.id}
-          onClick={(e) => handleEdit(e)}
+          onClick={e => handleEdit(e)}
           className="bg-zinc-600 px-2 rounded-xl group">
             {`${item.name}`}
             <EditArea
@@ -51,7 +51,7 @@ export default function EditCouses() {
     )
   }
 
-  function handleEdit (e) {
+  function handleEdit(e) {
     if (editMode) {
       if (e.target.id === openedItem) {
         setEditMode(false);
