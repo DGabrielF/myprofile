@@ -1,6 +1,7 @@
 import React from "react";
 import HamburguerMenu from "./HamburguerMenu";
-import LoginMenu from "./LoginMenu";
+import InMenu from "./LoginMenu/InMenu";
+import OutMenu from "./LoginMenu/OutMenu";
 
 export default function Menu({menuMode, menuSelected, menuItems, handleMenu, handleSection, user, handleLogged, modal, handleModal}) {
   return (
@@ -13,10 +14,9 @@ export default function Menu({menuMode, menuSelected, menuItems, handleMenu, han
       handleMenu={handleMenu}
       handleSection={handleSection}
       />
-      <LoginMenu
-      user={user}
-      handleModal={handleModal}
-      />
+      <div>
+        {user.logged?<InMenu handleModal={handleModal}/>:<OutMenu handleModal={handleModal}/>}
+      </div>
     </div>
   )
 }

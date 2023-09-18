@@ -17,7 +17,7 @@ export default function SidebarOpen ( {sideBar, setSideBar, setSection, menuItem
         })}
       </div>
       <div 
-      className="abMeSidebarOpenCloseButton"
+      className="abMeSidebarOpenCloseButton max-w-[30px]"
       onClick={e => setSideBar(!sideBar)}>
         <FiChevronLeft />
       </div>

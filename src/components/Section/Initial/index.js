@@ -44,7 +44,7 @@ export default class Initial extends Component {
             <div className="normalText">Há um espaço onde vocês também podem saber mais sobre mim, é só usar esse menu no canto superior esquerdo aqui do site e depois clicar em "About Me"</div>
             <div className="normalText">Lá vocês podem conhecer um pouco mais sobre a minha tragetória acadêmica, profissional. Como por exemplo:</div>
             <div className="normalText">CURSOS</div>
-            <div className="px-4">
+            <div className="px-2">
               <CoursesList />
             </div>
             <div className="normalText">Mas também, sobre coisas que eu gosto de fazer além do que a vida exige.</div>
