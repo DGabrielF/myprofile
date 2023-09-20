@@ -32,15 +32,15 @@ export default function Toast({toast}) {
 
   if (toast.isOn) {
     content = 
-    <div className="bg-zinc-600 w-[70%] absolute bottom-4 left-[15%] z-50 rounded-2xl py-2 flex flex-col items-center gap-2">
+    <div className="toast">
       <div className={(toast.type === 'success')?"text-lime-600 titleToast":"text-orange-600 titleToast"}>
         {icon}
-        <div className="w-[80%]">
+        <div>
           {toast.title.toUpperCase()}
         </div>
         {icon}
       </div>
-      <div className={(toast.type === 'success')?"text-lime-600 titleToast":"text-orange-600 messageToast"}>
+      <div className={(toast.type === 'success')?"text-lime-600 messageToast":"text-orange-600 messageToast"}>
         {toast.message}
       </div>
     </div>

@@ -21,7 +21,7 @@ export default function SignIn ({user, handleEmail, handlePassword, handleLogin}
   }
 
   return (
-    <div className=" bg-zinc-600 w-[70%] min-w-[100px] left-[15%] max-h-[40%] min-h-[115px] top-[25%] z-50 absolute rounded-xl flex flex-col gap-1 justify-around">
+    <div className="modal">
       <h2 className="py-1 text-center font-extrabold text-2xl">FAZER LOGIN</h2>
       <input 
       type="email" value={user.email} placeholder="E-mail"

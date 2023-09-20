@@ -20,8 +20,7 @@ export default function HamburguerMenu({hamMenuIsOpen, menuItems, menuSelected, 
     )
   }
   return (
-    <div
-    className="mt-1">
+    <div>
         {hamMenu}
     </div>
   )

@@ -34,8 +34,7 @@ export default class SMASection extends Component {
       page = (<SMABought />)
     }
     return (
-      <div className="flex">
-        <div className="fixed">
+      <div className="h-full flex">
           <SMASideBar
           sideBarIsOpen={sideBarIsOpen}
           itemSelected={itemSelected}
@@ -43,7 +42,6 @@ export default class SMASection extends Component {
           handleSideBar={this.handleSideBar}
           handlePage={this.handlePage}
         />
-        </div>
         {page}
       </div>
     )

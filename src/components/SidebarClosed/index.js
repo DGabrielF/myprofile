@@ -11,4 +11,4 @@ export default function SidebarOpen ( {sideBar, setSideBar}) {
       </div>
     </div>
   )
-}
+} 

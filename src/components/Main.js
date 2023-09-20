@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from "react";
+import React, { Component } from "react";
 import Menu from "./Menu";
 import Initial from "./Section/Initial";
 import SMASection from "./Section/Apps/SMA/SMASection";
@@ -227,7 +227,7 @@ export default class Main extends Component {
   render() {
     const {menuMode, menuSelected, menuItems, user, modal, toast} = this.state
     return (
-      <div className="bg-slate-400 h-screen">
+      <div className="bg-zinc-700 h-screen">
         <Toast toast={toast}/>
         <Menu 
         menuMode={menuMode}
@@ -252,7 +252,7 @@ export default class Main extends Component {
         modal={modal}
         handleModal={this.handleModal}
         />
-        <div className="h-full pt-8">
+        <div className="h-full pt-8 overflow-auto">
           {menuSelected.section}
         </div>
       </div>
