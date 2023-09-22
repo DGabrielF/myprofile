@@ -2,6 +2,9 @@ import React, { Component } from "react";
 import SMAForm from "../SMAForm";
 import SMAFormButtons from "../SMAFormButtons";
 import SMABoughtList from "../SMABoughtList";
+import { addDoc, collection } from "firebase/firestore";
+import { db } from "../../../../../firebase-config";
+import Main from "../../../../Main";
 
 export default class SMABought extends Component {
   state = {
@@ -12,6 +15,7 @@ export default class SMABought extends Component {
       quantity:1,
     },
     itemsList: [],
+    coll: "SMA",
   }
 
   handleChangeInputs = (e) => {
@@ -27,9 +31,11 @@ export default class SMABought extends Component {
   }
 
   priceInputRestriction = (e) => {
+    const {item} = this.state
     const inputValue = e.currentTarget.value;
     const numberValue = inputValue.replace(/[^\d+(.\d{1,2})?$]/g,'');
     e.currentTarget.value = numberValue;
+    this.setState({ item: {...item, price: numberValue}})
   }
 
   quantityInputRestriction = (e) => {
@@ -93,15 +99,33 @@ export default class SMABought extends Component {
   }
   
 
-  handleSave = (e) => {
+  handleSave = async (e) => {
     console.log(this.state)
+    const date = new Date() 
+    try {
+      this.state.itemsList.map(async (item, index) => {
+        await addDoc(collection(db, this.state.coll), 
+        {
+          name: item.name,
+          company: item.company,
+          price: item.price,
+          quantity: item.quantity,
+          day: date.getDate(),
+          month: date.getMonth()+1,
+          year: date.getFullYear(),
+        });
+      })
+      console.log('Dados enviados com sucesso')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   render() {
     const { itemsList } = this.state
     return (    
     <div className="w-full h-full">
-      <div className="smaPageTitle">Título da página</div>
+      <div className="smaPageTitle ">LISTA DE COMPRAS</div>
       <div className="smaSeparator"></div>
       <div className="boughhtItemsList">
       <SMABoughtList 

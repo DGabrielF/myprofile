@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import SMABought from "../SMABought";
-import SMAHome from "../SMAHome";
-import SMASideBar from "../SMASideBar";
+import SMAHome from "./SMAHome";
+import SMABought from "./SMABought";
+import SMASideBar from "./SMASideBar";
 
-export default class SMASection extends Component {
+export default class SMA extends Component {
   state = {
     sideBarIsOpen: false,
     itemSelected: {number: 0, name: "Início"},
@@ -34,7 +34,7 @@ export default class SMASection extends Component {
       page = (<SMABought />)
     }
     return (
-      <div className="h-full flex">
+      <div className="h-full flex bg-zinc-800">
           <SMASideBar
           sideBarIsOpen={sideBarIsOpen}
           itemSelected={itemSelected}

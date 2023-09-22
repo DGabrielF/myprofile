@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Menu from "./Menu";
 import Initial from "./Section/Initial";
-import SMASection from "./Section/Apps/SMA/SMASection";
 import Stats from "./Section/Stats";
 import AboutMe from "./Section/AboutMe";
 import DevArea from "./Section/DevArea";
@@ -10,6 +9,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } f
 import { auth, db } from "../firebase-config";
 import { addDoc, collection } from "firebase/firestore";
 import Toast from "./Toast";
+import Apps from "./Section/Apps";
 
 
 export default class Main extends Component {
@@ -19,13 +19,13 @@ export default class Main extends Component {
     menuSelected: {number: 0, name: "Home", section: <Initial />},
     menuItems: [
       {number: 0, name: "Home", section: <Initial />},
-      {number: 1, name: "Apps", section: <SMASection /> },
+      {number: 1, name: "Apps", section: <Apps /> },
       {number: 2, name: "Stat", section: <Stats />},
       {number: 3, name: "About me", section: <AboutMe />},
       {number: 4, name: "Dev Area", section: <DevArea />},
     ],
     modal: {isOn: false, content: ""},
-    toast: {isOn: true, type: "", title: "", message: ""},
+    toast: {isOn: false, type: "", title: "", message: ""},
     fbMessage: {
       'Firebase: Error (auth/app-deleted).': 'O banco de dados não foi localizado.',
       'Firebase: Error (auth/expired-action-code).': 'O código da ação o ou link expirou.',
@@ -115,7 +115,6 @@ export default class Main extends Component {
       'Firebase: Error (auth/internal-error).': 'O servidor de autenticação encontrou um erro inesperado ao tentar processar a solicitação.'
     }
   }
-
 
   handleMenu = (e) => {
     let { menuMode } = this.state;
@@ -227,7 +226,7 @@ export default class Main extends Component {
   render() {
     const {menuMode, menuSelected, menuItems, user, modal, toast} = this.state
     return (
-      <div className="bg-zinc-700 h-screen">
+      <div className="bg-scroll bg-gradient-to-b from-zinc-900 to-zinc-700 h-screen">
         <Toast toast={toast}/>
         <Menu 
         menuMode={menuMode}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FBFetchData } from "../../../../firebase-config";
+import Loading from "../../../Loading";
 
 export default function ApplicationsList() {
   const [applications, setApplications] = useState([false])
@@ -9,8 +10,8 @@ export default function ApplicationsList() {
   
   if (applications[0] === false) {
     content = (
-      <div>
-        Carregando cursos
+      <div className="flex justify-center gap-2">
+        Carregando cursos <Loading />
       </div>
     )
   } else {
