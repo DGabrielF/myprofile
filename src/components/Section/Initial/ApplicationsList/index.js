@@ -7,7 +7,8 @@ export default function ApplicationsList() {
   let content;
 
   useEffect(() => {FBFetchData(setApplications, "Applications")}, []);
-
+  useEffect(() => {document.title = 'DGF - Bem Vindo'}, []);
+  
   if (applications[0] === false) {
     content = (
       <div className="flex justify-center gap-2">

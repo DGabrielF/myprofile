@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import SMAHome from "./SMAHome";
 import SMABought from "./SMABought";
 import SMASideBar from "./SMASideBar";
+import SMAStorage from "./SMAStorage";
+import SMASpendItem from "./SMASpendItem";
 
 export default class SMA extends Component {
   state = {
@@ -32,6 +34,10 @@ export default class SMA extends Component {
       page = (<SMAHome />)
     } else if (itemSelected.name === "Entrada de itens") {
       page = (<SMABought />)
+    } else if (itemSelected.name === "Estoque") {
+      page = (<SMAStorage />)
+    } else if (itemSelected.name === "Saída de itens") {
+      page = (<SMASpendItem />)
     }
     return (
       <div className="h-full flex bg-zinc-800">

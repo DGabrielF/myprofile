@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { LiaStoreAltSolid } from "react-icons/lia";
 
 export default function SMAHome() {
+  useEffect(() => {document.title = 'Storeroom Monitoring App'}, []);
   return (    
   <div className="w-full flex flex-col bg-gradient-to-r from-zinc-800 to-zinc-700">
     <div className="flex justify-center items-center px-2 mt-2 mb-4">

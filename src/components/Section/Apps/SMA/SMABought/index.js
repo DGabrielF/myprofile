@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import SMAForm from "../SMAForm";
-import SMAFormButtons from "../SMAFormButtons";
-import SMABoughtList from "../SMABoughtList";
+import SMAForm from "./SMAForm";
+import SMAFormButtons from "./SMAFormButtons";
+import SMABoughtList from "./SMABoughtList";
 import { addDoc, collection } from "firebase/firestore";
 import { db } from "../../../../../firebase-config";
-import Main from "../../../../Main";
+
 
 export default class SMABought extends Component {
   state = {
@@ -13,6 +13,10 @@ export default class SMABought extends Component {
       company:"",
       price:"",
       quantity:1,
+      unit:"",
+      day: new Date().getDate(),
+      month: new Date().getMonth()+1,
+      year: new Date().getYear(),
     },
     itemsList: [],
     coll: "SMA",
@@ -39,10 +43,12 @@ export default class SMABought extends Component {
   }
 
   quantityInputRestriction = (e) => {
+    const {item} = this.state
     const inputValue = e.currentTarget.value;
     let numberValue = inputValue.replace(/[^\d+(.\d{1,2})?$]/g,'');
     numberValue = numberValue.replace(/,/g, '.')
     e.currentTarget.value = numberValue;
+    this.setState({item: {...item, quantity: numberValue}})
   }
 
   handleQuantity = (e, amount) => {
@@ -60,11 +66,21 @@ export default class SMABought extends Component {
       console.log("Toastify: O produto necessita de um nome")
     } else if (item.quantity === 0) {
       console.log('Toastify: Como assim você comprou "zero" produto?')
+    } else if (item.unit === '') {
+      console.log('Toastify: isso é em que unidade')
     } else {
       this.setState((prevState) => ({
+        item: {...item,
+          name:"",
+          company:"",
+          price:"",
+          quantity:1,
+          unit:"",
+        },
         itemsList: [...prevState.itemsList, item]
       }))
     }
+    console.log(item)
   }
 
   handleDeleteItem = (e) => {
@@ -84,38 +100,42 @@ export default class SMABought extends Component {
     const name = parentDiv.querySelector(`[name='name']`).innerText
     const company = parentDiv.querySelector(`[name='company']`).innerText
     const quantity = parentDiv.querySelector(`[name='quantity']`).innerText
+    const unit = parentDiv.querySelector(`[name='unit']`).innerText
     const novaLista = itemsList.filter((item) => (item.name !== name || item.company !== company));
     document.querySelector(`.smaForm [name='name']`).value = name
     document.querySelector(`.smaForm [name='company']`).value = company
     document.querySelector(`.smaForm [name='quantity']`).value = quantity
+    document.querySelector(`.smaForm [name='unit']`).value = unit
     this.setState({
       item: {
         name: name,
         company:company,
         quantity:quantity,
+        unit:unit,
       },
       itemsList: [...novaLista],
     })
   }
-  
 
   handleSave = async (e) => {
-    console.log(this.state)
-    const date = new Date() 
     try {
       this.state.itemsList.map(async (item, index) => {
         await addDoc(collection(db, this.state.coll), 
         {
           name: item.name,
-          company: item.company,
-          price: item.price,
-          quantity: item.quantity,
-          day: date.getDate(),
-          month: date.getMonth()+1,
-          year: date.getFullYear(),
+          company:item.company,
+          price:item.price,
+          quantity:item.quantity,
+          unit:item.unit,
+          day:item.day,
+          month:item.month,
+          year:item.year,
         });
       })
       console.log('Dados enviados com sucesso')
+      this.setState({
+        itemsList: [],
+      })
     } catch (error) {
       console.log(error)
     }
@@ -125,7 +145,18 @@ export default class SMABought extends Component {
     const { itemsList } = this.state
     return (    
     <div className="w-full h-full">
-      <div className="smaPageTitle ">LISTA DE COMPRAS</div>
+      <div className="smaPageTitle ">COMPRAR</div>
+      <div className="smaSeparator"></div>
+        <SMAForm 
+        handleChangeInputs={this.handleChangeInputs}
+        handleQuantity={this.handleQuantity}
+        quantityInputRestriction={this.quantityInputRestriction}
+        priceInputRestriction={this.priceInputRestriction}
+        />
+        <SMAFormButtons 
+        handleListItems={this.handleListItems} 
+        handleSave={this.handleSave}
+        />
       <div className="smaSeparator"></div>
       <div className="boughhtItemsList">
       <SMABoughtList 
@@ -135,16 +166,6 @@ export default class SMABought extends Component {
       />
       <div className="smaSeparator"></div>
       </div>
-      <SMAForm 
-      handleChangeInputs={this.handleChangeInputs}
-      handleQuantity={this.handleQuantity}
-      quantityInputRestriction={this.quantityInputRestriction}
-      priceInputRestriction={this.priceInputRestriction}
-      />
-      <SMAFormButtons 
-      handleListItems={this.handleListItems} 
-      handleSave={this.handleSave}
-      />
     </div>
     )
   }

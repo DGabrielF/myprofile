@@ -10,7 +10,7 @@ export default function SMABoughtList({itemsList, handleDeleteItem, handleEditIt
           <div name="name" className="w-[39%] min-w-[30px]">{item.name}</div>
           <div name="company" className="w-[39%] min-w-[30px]">{item.company}</div>
           <div className="w-[20%] min-w-[80px] flex justify-between">
-            <div name="quantity">{item.quantity}</div>
+            <div name="quantity">{`${item.quantity}(${item.unit})`}</div>
             <button
             onClick={(e) => handleEditItem(e)}>
               <FiEdit />

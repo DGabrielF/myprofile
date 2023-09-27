@@ -12,6 +12,7 @@ export default function Apps () {
   let app;
 
   useEffect(() => {FBFetchData(setApplications, "Applications")}, []);
+  useEffect(() => {document.title = 'DGF - Aplicações'}, []);
 
   function handlePage (e, item) {
     setAppList(false)

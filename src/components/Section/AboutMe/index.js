@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Presentation from "./Presentation";
 import SidebarOpen from "./SidebarOpen";
 import SidebarClosed from "../../SidebarClosed";
@@ -14,6 +14,7 @@ export default function AboutMe() {
     {name:"hobbies", title:"Hobbies", content: <Presentation />},
   ];
 
+  useEffect(() => {document.title = 'DGF - Sobre mim'}, []);
   let sideBarContent;
   if (sideBar) {
     sideBarContent = <SidebarOpen sideBar={sideBar} setSideBar={setSideBar} setSection={setSection}/>

@@ -15,7 +15,6 @@ export default class Initial extends Component {
   }
 
   render() {
-
     return (    
     <div className="w-full h-full">
       <div
