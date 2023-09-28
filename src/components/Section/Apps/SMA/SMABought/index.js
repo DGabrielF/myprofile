@@ -62,6 +62,7 @@ export default class SMABought extends Component {
 
   handleListItems = (e) => {
     const { item } = this.state
+    console.log(item)
     if (item.name === '') {
       console.log("Toastify: O produto necessita de um nome")
     } else if (item.quantity === 0) {
@@ -70,17 +71,9 @@ export default class SMABought extends Component {
       console.log('Toastify: isso é em que unidade')
     } else {
       this.setState((prevState) => ({
-        item: {...item,
-          name:"",
-          company:"",
-          price:"",
-          quantity:1,
-          unit:"",
-        },
         itemsList: [...prevState.itemsList, item]
       }))
     }
-    console.log(item)
   }
 
   handleDeleteItem = (e) => {
@@ -97,6 +90,7 @@ export default class SMABought extends Component {
   handleEditItem = (e) => {
     const { itemsList } = this.state
     const parentDiv =(e.target.closest('.smaItemOfList'))
+    console.log(parentDiv)
     const name = parentDiv.querySelector(`[name='name']`).innerText
     const company = parentDiv.querySelector(`[name='company']`).innerText
     const quantity = parentDiv.querySelector(`[name='quantity']`).innerText
