@@ -5,10 +5,11 @@
 @layer components {
   .inputs {
     @apply  px-2
+    w-[99%] min-w-[150px] max-w-[340px]
     text-right text-zinc-300 hover:text-zinc-800 focus:text-zinc-800 font-semibold
     rounded-xl
-    border-2 border-zinc-900 hover:border-zinc-600 focus:border-zinc-600
-    bg-zinc-700 hover:bg-zinc-400 focus:bg-zinc-200
+    border-4 border-violet-900 hover:border-violet-600 focus:border-violet-500
+    bg-zinc-700 hover:bg-violet-100 focus:bg-violet-200
   }
   .buttons {
     @apply  mt-2 px-2 py-1
@@ -24,15 +25,49 @@
     border-2 border-zinc-900
     bg-gray-700
   }
+  .hide-text-when-small {
+    @apply text-lg font-semibold truncate
+    w-0 sm:w-full
+  }
+  .icon {
+    @apply w-[22px] h-[22px]
+  }
+  .title-text {
+    @apply pt-3 pb-2 
+    text-3xl font-extrabold text-center
+  }
+  .subtitle {
+    @apply text-xl font-extrabold text-center
+  }
   .normal-text {
-    @apply px-2
-    text-zinc-400 text-center font-semibold text-lg
+    @apply text-lg font-semibold text-center
+  }
+  .separator {
+    @apply my-2 mx-auto
+    w-[95%] h-[2px]
+    bg-violet-500
+    rounded-full
   }
   .list {
-    @apply bg-zinc-500 rounded-xl p-2 flex flex-col gap-2
+    @apply p-2 mx-auto
+    text-zinc-800
+    w-[95%]
+    bg-violet-300
+    rounded-xl
+    flex flex-col gap-2 items-center
+  }
+  .list-container {
+    @apply w-full max-h-[130px]
+    overflow-auto
+    flex flex-col items-center
   }
   .item-list {
-    @apply hover:text-zinc-100 bg-zinc-700 hover:bg-violet-700 px-2 rounded-xl
+    @apply px-2 mt-[2px]
+    font-semibold
+    w-[99%] min-w-[150px] max-w-[300px] sm:max-w-none
+    bg-violet-100 hover:bg-violet-200 
+    rounded-lg
+    flex gap-2 items-center justify-between
   }
   .toast {
     @apply py-2
@@ -66,10 +101,10 @@
   .modal {
     @apply 
     rounded-2xl 
-    bg-zinc-600
+    bg-violet-300
     min-w-[100px] min-h-[115px] z-50
-    absolute top-[25%]
-    w-[70%] left-[15%]
+    absolute top-[25%] left-[15%]
+    w-[70%] 
     sm:w-[50%] sm:left-[25%]
     md:w-[40%] md:left-[30%]
     lg:w-[30%] lg:left-[35%]
@@ -102,6 +137,21 @@
   .successText {
     @apply text-lime-600 text-sm font-semibold flex items-center gap-2
   }
+
+  .sma-sidebar {
+    @apply p-1
+    absolute left-0
+    bg-orange-200
+    rounded-tr-2xl rounded-br-2xl 
+    w-[50%] min-w-[100px] max-w-[150px]
+    h-[96.2%]
+    flex justify-between items-center
+  }
+  .sma-sidebar-buttons {
+    @apply w-full h-full mt-6 mx-2 flex flex-col gap-2 justify-start
+  }
+
+
   /* AboutMe */
   .abMeBg {
     @apply bg-zinc-900 w-full h-full flex gap-1 mr-1
@@ -116,11 +166,9 @@
     @apply w-full flex flex-col gap-1
   }
   .abMeSidebarOpenCloseButton {
-    @apply hover:bg-zinc-400 w-[10%] max-w-[30px] rounded-r-2xl flex justify-center items-center
+    @apply w-[18px] text-zinc-800 flex justify-center items-center my-auto h-[99%] hover:bg-orange-400
   }
-  .abMeSidebarClosedOpenButton {
-    @apply hover:bg-zinc-400 w-full rounded-r-2xl flex justify-center items-center
-  }
+
   
   /* DevArea */
   .devaBg {

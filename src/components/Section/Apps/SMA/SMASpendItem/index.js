@@ -2,23 +2,21 @@ import React, { useEffect, useState } from "react";
 import { FBFetchData, db } from "../../../../../firebase-config";
 import SMAFormButtons from "./SMAFormButtons";
 import { FiMinusSquare, FiPlusSquare } from "react-icons/fi";
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, getDoc, getDocs } from "firebase/firestore";
 import { FaBalanceScale } from "react-icons/fa";
 import { PiCalendarLight } from "react-icons/pi";
 
-export default function SMASpendItem () {
+export default function SMASpendItem ({listId}) {
   const [itemList, setItemList] = useState([]);
   const [inputValue, setInputValue] = useState('');
   const [filteredNameTips, setFilteredNameTips] = useState([]);
-  const [spendItem, setSpendItem] = useState({
-    name: "",
-    company: "",
-    quantity: "",
-    unit: "",
-    day: new Date().getDate(),
-    month: new Date().getMonth()+1,
-    year: new Date().getYear(),
-  });
+  const [name, setName] =useState("");
+  const [company, setCompany] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [unit, setUnit] = useState("");
+  const [day, setDay] = useState(new Date().getDate())
+  const [month, setMonth] = useState(new Date().getMonth()+1)
+  const [year, setYear] = useState(new Date().getYear())
 
   const [error, setError] = useState('');
   
@@ -26,7 +24,7 @@ export default function SMASpendItem () {
 
   const showTips = (e, value, att) => {
     setInputValue(value);
-    (e.target.parentElement.id === "name")?setSpendItem({...spendItem, name: value}):setSpendItem({...spendItem, company: value})
+    (e.target.parentElement.id === "name")?setName(value):setCompany(value);
     const crudeFilteredTips = itemList.filter((tip) => tip[att].toLowerCase().includes(value.toLowerCase()));
     const filteredTips = crudeFilteredTips.filter((value, indice, array) => array.indexOf(value) === indice);
     setFilteredNameTips(filteredTips);
@@ -43,13 +41,19 @@ export default function SMASpendItem () {
     const clickParent = e.currentTarget.parentElement.parentElement;
     let newValue = Number(clickParent.querySelector(`[name=quantity]`).value) + amount
     newValue = (newValue <= 1) ? 1 : newValue
-    setSpendItem({...spendItem, quantity: newValue})
+    setQuantity(newValue)
     clickParent.querySelector(`[name=quantity]`).value = newValue
   }
 
   const selectTip = (tip) => {
     setInputValue(tip);
-    setSpendItem({...spendItem, name: inputValue.name, company: inputValue.company, unit: inputValue.unit})
+    setName(inputValue.name);
+    setCompany(inputValue.company);
+    setQuantity(inputValue.quantity);
+    setUnit(inputValue.unit);
+    setDay(inputValue.day);
+    setMonth(inputValue.month);
+    setYear(inputValue.year);
     setFilteredNameTips([]);
   }
 
@@ -66,25 +70,31 @@ export default function SMASpendItem () {
   }
 
   const handleSubmit = async (e) => {
-    setSpendItem({name: inputValue.name, company: inputValue.company, quantity:spendItem.quantity, unit:spendItem.unit});  
+    setName(inputValue.name);
+    setCompany(inputValue.company);
+    setQuantity(inputValue.quantity);
+    setUnit(inputValue.unit);
+    setDay(inputValue.day);
+    setMonth(inputValue.month);
+    setYear(inputValue.year);
   }
   
   const handleSend = async (e) => {
-    if (!itemList.some(obj => obj.name === spendItem.name)) {
+    if (!itemList.some(obj => obj.name === name)) {
       return setError("Nenhum item no banco de dados possui esse nome")
     }
-    if (!itemList.some(obj => obj.company === spendItem.company)) {
+    if (!itemList.some(obj => obj.company === company)) {
       return setError("Ainda não há nenhum produto com esse nome da marca especificada")
     }
     try {
-      await addDoc(collection(db, coll),
+      await addDoc(collection(db, coll, listId, "List"),
       {
-        name: spendItem.name,
-        company: spendItem.company,
-        quantity: -spendItem.quantity,
-        day: spendItem.day,
-        month: spendItem.month,
-        year: spendItem.year,
+        name: name,
+        company: company,
+        quantity: -quantity,
+        day: day,
+        month: month,
+        year: year,
       })
     } catch (error) {
       console.log(error)
@@ -92,11 +102,15 @@ export default function SMASpendItem () {
   }
 
   const handleCleanEntries = e => {
-    setSpendItem({name:'', company:'', quantity:'', unit:""});
+    setName("");
+    setCompany("");
+    setQuantity("");
+    setUnit("");
     setInputValue({name:'', company:'', quantity:1, unit:""});
   }
   
-  useEffect(() => {FBFetchData(setItemList, "SMA")}, []);
+  useEffect(() => {FBFetchData(setItemList, "SMA", listId, "List")}, []);
+
   return (
     <div className="w-full flex flex-col items-center">
       <div className="smaPageTitle text-center">PRODUTO CONSUMIDO</div>
@@ -123,8 +137,8 @@ export default function SMASpendItem () {
               <FaBalanceScale className="w-[23px] h-[23px]"/>
               <div>/und</div>
             </div>
-            <input name="unit" placeholder="ml" 
-              onChange={(e) => setSpendItem({...spendItem, unit: e.target.value})}
+            <input name="unit" placeholder="ml" value={unit}
+              onChange={(e) => setUnit(e.target.value)}
               className="smaInputs min-w-[75px] max-w-[90px]">
             </input>
           </div>
@@ -133,15 +147,15 @@ export default function SMASpendItem () {
               <PiCalendarLight className="w-[23px] h-[23px]"/>
             </div>
             <input name="day" placeholder="01" defaultValue={ new Date().getDate()}
-            onBlur={(e) => setSpendItem({...spendItem, day: e.target.value})} 
+            onBlur={(e) => setDay(e.target.value)} 
             className="smaInputs w-[37px] min-w-[37px]">
             </input>
             <input name="month" placeholder="01" defaultValue={ new Date().getMonth()+1}
-            onBlur={(e) => setSpendItem({...spendItem, month: e.target.value})}
+            onBlur={(e) => setMonth(e.target.value)}
             className="smaInputs w-[37px] min-w-[37px]">
             </input>
             <input name="year" placeholder="2000" defaultValue={ new Date().getFullYear()}
-            onBlur={(e) => setSpendItem({...spendItem, year: e.target.value})} 
+            onBlur={(e) => setYear(e.target.value)} 
             className="smaInputs w-[55px] min-w-[57px]">
             </input>
           </div>
@@ -158,8 +172,8 @@ export default function SMASpendItem () {
       </div>:
       <></>}
       <div className="smaSeparator"></div>
-      <div className="normal-text">
-        {(filteredNameTips.length !== 0 || itemList.length !== 0)?"pode selecionar um item abaixo":"ainda não há itens"}
+      <div className="normal-text text-orange-500">
+        {(filteredNameTips.length !== 0 || itemList.length !== 0)?"ou selecione um item abaixo":"ainda não há itens"}
       </div>
       <div className="smaList flex flex-col overflow-auto">
         {

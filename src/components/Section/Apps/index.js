@@ -3,7 +3,7 @@ import { FBFetchData } from "../../../firebase-config";
 import SMA from "./SMA";
 import Loading from "../../Loading";
 
-export default function Apps () {
+export default function Apps ({user}) {
   const [sideBar, setSideBar] = useState(false);
   const [appList, setAppList] = useState(true);
   const [applications, setApplications] = useState([false]);
@@ -65,7 +65,7 @@ export default function Apps () {
   }
 
   if (page === 'sma') {
-    app = <SMA />
+    app = <SMA user={user} />
   } 
   return (    
     <>{appList?content:app}</>

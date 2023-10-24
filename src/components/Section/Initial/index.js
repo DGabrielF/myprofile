@@ -16,7 +16,7 @@ export default class Initial extends Component {
 
   render() {
     return (    
-    <div className="w-full h-full">
+    <div className="w-full h-full text-zinc-200 px-1">
       <div
       className="normal-text py-2">
         Olá galerinha, se você chegou até aqui provavelmente está buscando uma aplicação web que possa ajudar a facilitar o seu dia a dia ou está curioso para saber mais sobre o que tenho aprontado. De toda forma, sinta-se a vontade e qualquer coisa é só me chamar!!!

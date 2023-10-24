@@ -1,29 +1,21 @@
 import React, { useState } from "react";
 import { FiCheckSquare, FiSquare } from "react-icons/fi";
-import { validateEmail } from "../../../../../validations"
+import { validateEmail } from "../../../../validations"
 
-export default function SignUp ({user, handleEmail, handlePassword, handleRegister}) {
+export default function SignUp ({user, prevPage, handleNickname, handleEmail, handlePassword, handleRegister}) {
   const [verifyPassword, setVerifyPassword] = useState("");
-  let button;
-
-  if  (!validateEmail(user.email)||user.password.length > 10||user.password.length < 6||user.password !== verifyPassword) {
-    button = (
-      <button
-      className="unable-buttons w-[90%] mb-2">
-        CADASTRAR
-      </button>
-    )
-  } else {
-    button = (
-      <button onClick={(e) => handleRegister(e, user)}
-      className="buttons w-[90%] mb-2">
-        CADASTRAR
-      </button>
-    )
-  }
+  
   return (
-    <div className="modal">
-      <h2 className="py-1 text-center font-extrabold text-2xl">CADASTRE-SE</h2>
+    <div className="modal z-0">
+      <h2 className="title-text text-violet-900">CADASTRE-SE</h2>
+      <input
+      type="text" value={user.name} placeholder="Como quer ser chamado?"
+      onChange={e => handleNickname(e)}
+      className="inputs w-[90%] h-[30%]"/>
+      <div className={user.name.length > 20 || user.name.length < 3?"alertText":"successText"}>
+        Entre 3 e 20 caracteres
+        {!validateEmail(user.email)? <FiSquare />:<FiCheckSquare />}
+      </div>
       <input 
       type="email" value={user.email} placeholder="E-mail"
       onChange={(e) => handleEmail(e)}
@@ -57,7 +49,12 @@ export default function SignUp ({user, handleEmail, handlePassword, handleRegist
         {user.password !== verifyPassword?"Senhas diferentes":"Senhas iguais"}
         {user.password !== verifyPassword?<FiSquare />:<FiCheckSquare />}
       </div>
-      {button}
+      <button 
+      disabled={!validateEmail(user.email)||user.password.length > 10||user.password.length < 6||user.password !== verifyPassword}
+      onClick={(e) => handleRegister(e, prevPage)}
+      className="buttons w-[90%] mb-2">
+        CADASTRAR
+      </button>
     </div>
   )
 }

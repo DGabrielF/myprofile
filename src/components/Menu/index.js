@@ -1,22 +1,23 @@
 import React from "react";
 import HamburguerMenu from "./HamburguerMenu";
-import InMenu from "./LoginMenu/InMenu";
-import OutMenu from "./LoginMenu/OutMenu";
+import LoginMenu from "./LoginMenu";
 
-export default function Menu({menuMode, menuSelected, menuItems, handleMenu, handleSection, user, handleLogged, modal, handleModal}) {
+export default function Menu({menuMode, menuSelected, menuItems, handleMenu, handleSection, user, setMenuSelected}) {
   return (
     <div 
-    className="bg-zinc-300 w-full p-1 z-40 fixed flex justify-between">
+    className="bg-zinc-300 w-full h-[33px] p-1 z-40 fixed flex justify-between">
       <HamburguerMenu 
       hamMenuIsOpen={menuMode}
       menuItems={menuItems}
       menuSelected={menuSelected}
       handleMenu={handleMenu}
-      handleSection={handleSection}
+      setMenuSelected={setMenuSelected}
       />
-      <div>
-        {user.logged?<InMenu handleModal={handleModal}/>:<OutMenu handleModal={handleModal}/>}
-      </div>
+      <LoginMenu
+      user={user}
+      menuSelected={menuSelected}
+      setMenuSelected={setMenuSelected}
+      />
     </div>
   )
 }

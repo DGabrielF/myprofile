@@ -1,9 +1,9 @@
 import React from "react";
-import SignIn from "../Menu/LoginMenu/OutMenu/SignIn";
-import SignUp from "../Menu/LoginMenu/OutMenu/SignUp";
-import SignOut from "../Menu/LoginMenu/InMenu/SignOut";
+import SignIn from "../Menu/LoginMenu/SignIn";
+import SignUp from "../Menu/LoginMenu/SignUp";
+import SignOut from "../Menu/LoginMenu/SignOut";
 
-export default function Modal({user, handleEmail, handlePassword, handleLogin, handleRegister, handleLogout, modal, handleModal}) {
+export default function Modal({user, handleNickname, handleEmail, handlePassword, handleLogin, handleRegister, handleLogout, modal, handleModal}) {
   let el;
   let cont;
   if (modal.isOn === true) {
@@ -20,6 +20,7 @@ export default function Modal({user, handleEmail, handlePassword, handleLogin, h
       cont = (
         <SignUp
         user={user}
+        handleNickname={handleNickname}
         handleEmail={handleEmail}
         handlePassword={handlePassword}
         handleRegister={handleRegister}

@@ -16,7 +16,8 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app)
 export const db = getFirestore(app)
 
-export const FBFetchData = async (setFunction, collectionName) => {
+export const FBFetchData = async (setFunction, ...args) => {
+  const collectionName = args.join('/')
   try{
     const collectionRef = collection(db, collectionName);
     const snapshot = await getDocs(collectionRef);

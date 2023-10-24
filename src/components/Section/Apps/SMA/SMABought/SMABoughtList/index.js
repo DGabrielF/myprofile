@@ -6,7 +6,7 @@ export default function SMABoughtList({itemsList, handleDeleteItem, handleEditIt
   if (Object.keys(itemsList).length !== 0) {
     boughtList = itemsList.map((item, index) => {
       return (
-        <div className="smaItemOfList flex">
+        <div className="smaItemOfList flex overflow-auto">
           <div name="name" className="w-[39%] min-w-[30px]">{item.name}</div>
           <div name="company" className="w-[39%] min-w-[30px]">{item.company}</div>
           <div className="w-[20%] min-w-[80px] flex justify-between">
@@ -17,11 +17,11 @@ export default function SMABoughtList({itemsList, handleDeleteItem, handleEditIt
               &#x0029;
             </div>
             <button
-            onClick={(e) => handleEditItem(e)}>
+            onClick={e => handleEditItem(e, item)}>
               <FiEdit />
             </button>
             <button 
-            onClick={(e) => handleDeleteItem(e)}
+            onClick={e => handleDeleteItem(e)}
             className="text-black hover:text-orange-900">
               <FiTrash2 />
             </button>

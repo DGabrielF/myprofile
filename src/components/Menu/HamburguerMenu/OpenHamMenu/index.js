@@ -1,7 +1,7 @@
 import React from "react";
 import { FiX } from "react-icons/fi";
 
-export default function OpenHamMenu({menuSelected, menuItems, handleMenu, handleSection}){
+export default function OpenHamMenu({menuSelected, menuItems, handleMenu, setMenuSelected}){
   return (
     <div
     className="p-2
@@ -11,7 +11,7 @@ export default function OpenHamMenu({menuSelected, menuItems, handleMenu, handle
     flex flex-col rounded-ee-2xl">
       <div
       className="flex justify-end">
-        <div className="px-1 w-0 text-zinc-300 sm:w-full sm:text-zinc-700 font-semibold">MENU</div>
+        
         <div
         onClick={(e) => handleMenu(e)}
         className="cursor-pointer flex justify-around items-center">
@@ -20,19 +20,18 @@ export default function OpenHamMenu({menuSelected, menuItems, handleMenu, handle
       </div>
       <div
       className="w-full mt-3 flex flex-col gap-2">
-        {menuItems.map((item, index) => {
-          if (item.number !== Number(menuSelected.number)) {return(
-            <button key={item.number} id={item.number}
-              onClick={(e) => handleSection(e)}
-              className="px-1
-              text-zinc-200 hover:text-zinc-800 font-semibold
-              rounded-lg
-              bg-zinc-600 hover:bg-violet-400">
-                {item.name}
-            </button>
-            )
-          } else return undefined
-        })}
+        {menuItems.map((item, index) => (
+          <button key={item} id={item}
+            disabled={item === menuSelected}
+            onClick={e => {setMenuSelected(item); handleMenu(e)}}
+            className={`px-1
+            ${item === menuSelected ? 'opacity-50 cursor-not-allowed hover:text-zinc-200' : 'hover:bg-violet-400'}
+            text-zinc-200 hover:text-zinc-800 font-semibold
+            rounded-lg
+            bg-zinc-600`}>
+              {item}
+          </button>
+        ))}
       </div>
     </div>
   )

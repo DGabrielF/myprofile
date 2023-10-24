@@ -1,120 +1,52 @@
-import React, { Component } from "react";
+import React, { useEffect, useState } from "react";
 import SMAForm from "./SMAForm";
 import SMAFormButtons from "./SMAFormButtons";
 import SMABoughtList from "./SMABoughtList";
-import { addDoc, collection } from "firebase/firestore";
-import { db } from "../../../../../firebase-config";
+import { addDoc, collection, doc, updateDoc } from "firebase/firestore";
+import { FBFetchData, db } from "../../../../../firebase-config";
 
+export default function SMABought ({listId, handleQuantity, quantityInputRestriction}) {
+  const [name, setName] =useState("");
+  const [company, setCompany] = useState("");
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [unit, setUnit] = useState("");
+  const [day, setDay] = useState(new Date().getDate())
+  const [month, setMonth] = useState(new Date().getMonth()+1)
+  const [year, setYear] = useState(new Date().getFullYear())
+  const [itemsList, setItemsList] = useState([]);
+  const [statList, setStatList] = useState([]);
+  const [update, setUpdate] = useState(false)
+  const coll = "SMA";
 
-export default class SMABought extends Component {
-  state = {
-    item: {
-      name:"",
-      company:"",
-      price:"",
-      quantity:1,
-      unit:"",
-      day: new Date().getDate(),
-      month: new Date().getMonth()+1,
-      year: new Date().getYear(),
-    },
-    itemsList: [],
-    coll: "SMA",
-  }
+  useEffect(() => {FBFetchData(setStatList, "SMA", listId, "Stat")}, [update, listId]);
 
-  handleChangeInputs = (e) => {
-    const {item} = this.state
-    const { name, value } = e.currentTarget;
-    this.setState({ item: {...item, [name]: value}})
-  }
-
-  dotDecimalValidate(value) {
-    const regex = /^\d+(\.\d{1,2})?$/;
-    const temPontoDecimal = (value.match(/\./g) || []).length > 1;
-    return regex.test(value) && !temPontoDecimal;
-  }
-
-  priceInputRestriction = (e) => {
-    const {item} = this.state
-    const inputValue = e.currentTarget.value;
-    const numberValue = inputValue.replace(/[^\d+(.\d{1,2})?$]/g,'');
-    e.currentTarget.value = numberValue;
-    this.setState({ item: {...item, price: numberValue}})
-  }
-
-  quantityInputRestriction = (e) => {
-    const {item} = this.state
-    const inputValue = e.currentTarget.value;
-    let numberValue = inputValue.replace(/[^\d+(.\d{1,2})?$]/g,'');
-    numberValue = numberValue.replace(/,/g, '.')
-    e.currentTarget.value = numberValue;
-    this.setState({item: {...item, quantity: numberValue}})
-  }
-
-  handleQuantity = (e, amount) => {
-    const {item} = this.state
-    const clickParent = e.currentTarget.parentElement.parentElement;
-    let newValue = Number(clickParent.querySelector(`[name=quantity]`).value) + amount
-    newValue = (newValue <= 0) ? 0 : newValue
-    this.setState({item: {...item, quantity: newValue}})
-    clickParent.querySelector(`[name=quantity]`).value = newValue
-  }
-
-  handleListItems = (e) => {
-    const { item } = this.state
-    console.log(item)
-    if (item.name === '') {
+  const handleListItems = (e) => {
+    if (name === '') {
       console.log("Toastify: O produto necessita de um nome")
-    } else if (item.quantity === 0) {
+    } else if (quantity === 0) {
       console.log('Toastify: Como assim você comprou "zero" produto?')
-    } else if (item.unit === '') {
+    } else if (unit === '') {
       console.log('Toastify: isso é em que unidade')
     } else {
-      this.setState((prevState) => ({
-        itemsList: [...prevState.itemsList, item]
-      }))
+      const existingItem = itemsList.find(obj =>
+        obj.name === name &&
+        obj.company === company &&
+        obj.unit === unit
+      );
+      if (!existingItem) {
+        setItemsList([...itemsList, {name, company, price, quantity, unit, day, month, year}]);
+        setName("");
+      } else {
+        console.log("Esse item já foi adicionado à lista")
+      }
     }
   }
 
-  handleDeleteItem = (e) => {
-    const { itemsList } = this.state
-    const parentDiv =(e.target.closest('.smaItemOfList'))
-    const name = parentDiv.querySelector(`[name='name']`).innerText
-    const company = parentDiv.querySelector(`[name='company']`).innerText
-    const novaLista = itemsList.filter((item) => (item.name !== name || item.company !== company));
-    this.setState({
-      itemsList: [...novaLista]
-    })
-  }
-
-  handleEditItem = (e) => {
-    const { itemsList } = this.state
-    const parentDiv =(e.target.closest('.smaItemOfList'))
-    console.log(parentDiv)
-    const name = parentDiv.querySelector(`[name='name']`).innerText
-    const company = parentDiv.querySelector(`[name='company']`).innerText
-    const quantity = parentDiv.querySelector(`[name='quantity']`).innerText
-    const unit = parentDiv.querySelector(`[name='unit']`).innerText
-    const novaLista = itemsList.filter((item) => (item.name !== name || item.company !== company));
-    document.querySelector(`.smaForm [name='name']`).value = name
-    document.querySelector(`.smaForm [name='company']`).value = company
-    document.querySelector(`.smaForm [name='quantity']`).value = quantity
-    document.querySelector(`.smaForm [name='unit']`).value = unit
-    this.setState({
-      item: {
-        name: name,
-        company:company,
-        quantity:quantity,
-        unit:unit,
-      },
-      itemsList: [...novaLista],
-    })
-  }
-
-  handleSave = async (e) => {
+  const handleSave = async (e) => {
     try {
-      this.state.itemsList.map(async (item, index) => {
-        await addDoc(collection(db, this.state.coll), 
+      itemsList.map(async (item, index) => {
+        await addDoc(collection(db, coll, listId, "List"), 
         {
           name: item.name,
           company:item.company,
@@ -125,42 +57,105 @@ export default class SMABought extends Component {
           month:item.month,
           year:item.year,
         });
+
+        const existingStatItem = statList.find(statItem =>
+          statItem.name === item.name &&
+          statItem.company === item.company &&
+          statItem.unit === item.unit
+        );
+
+        if (!existingStatItem) {
+          await addDoc(collection(db, coll, listId, "Stat"),
+          {
+            name: item.name,
+            company: item.company,
+            unit: item.unit,
+            quantity: item.quantity,
+            min: item.price,
+            mean: item.price,
+            max: item.price,
+            occurrence: item.quantity,
+            meanShoppingInterval: 0,
+          });
+          setUpdate(!update)
+        } else {
+          await updateDoc(doc(db, coll, listId, "Stat", existingStatItem.id),
+          {
+            quantity: existingStatItem.quantity + item.quantity,
+            min: (Number(item.price) < Number(existingStatItem.min))?Number(item.price).toFixed(2):Number(existingStatItem.min).toFixed(2),
+            mean: ((Number(existingStatItem.mean) * Number(existingStatItem.occurrence) + Number(item.price)) / (Number(existingStatItem.occurrence) + 1)).toFixed(2),
+            max: (Number(item.price) > Number(existingStatItem.max))?Number(item.price).toFixed(2):Number(existingStatItem.max).toFixed(2),
+            occurrence: Number(item.quantity)>0?Number(existingStatItem.occurrence)+Number(item.quantity):Number(existingStatItem.occurrence),
+            meanShoppingInterval: 0,
+          });
+          setUpdate(!update)
+        }
       })
       console.log('Dados enviados com sucesso')
-      this.setState({
-        itemsList: [],
-      })
+      setItemsList([]);
     } catch (error) {
       console.log(error)
     }
   }
 
-  render() {
-    const { itemsList } = this.state
-    return (    
+  const handleDeleteItem = (e) => {
+    const parentDiv =(e.target.closest('.smaItemOfList'))
+    const name = parentDiv.querySelector(`[name='name']`).innerText
+    const company = parentDiv.querySelector(`[name='company']`).innerText
+    const novaLista = itemsList.filter((item) => (item.name !== name || item.company !== company));
+    setItemsList([...novaLista])
+  }
+  
+  const handleEditItem = (e, item) => {
+    setName(item.name);
+    setCompany(item.company);
+    setPrice(item.price);
+    setQuantity(item.quantity);
+    setUnit(item.unit);
+    setDay(item.day);
+    setMonth(item.month);
+    setYear(item.year);
+    const newArray = itemsList.filter(obj => obj!==item)
+    setItemsList([...newArray])
+  }
+
+  return (    
     <div className="w-full h-full">
       <div className="smaPageTitle ">COMPRAR</div>
       <div className="smaSeparator"></div>
         <SMAForm 
-        handleChangeInputs={this.handleChangeInputs}
-        handleQuantity={this.handleQuantity}
-        quantityInputRestriction={this.quantityInputRestriction}
-        priceInputRestriction={this.priceInputRestriction}
+        name={name}
+        setName={setName}
+        company={company}
+        setCompany={setCompany}
+        price={price}
+        setPrice={setPrice}
+        quantity={quantity}
+        setQuantity={setQuantity}
+        unit={unit}
+        setUnit={setUnit}
+        day={day}
+        setDay={setDay}
+        month={month}
+        setMonth={setMonth}
+        year={year}
+        setYear={setYear}
+        handleQuantity={handleQuantity}
+        quantityInputRestriction={quantityInputRestriction}
         />
         <SMAFormButtons 
-        handleListItems={this.handleListItems} 
-        handleSave={this.handleSave}
+        handleListItems={handleListItems} 
+        handleSave={handleSave}
         />
       <div className="smaSeparator"></div>
       <div className="boughhtItemsList">
       <SMABoughtList 
       itemsList={itemsList}
-      handleDeleteItem={this.handleDeleteItem}
-      handleEditItem={this.handleEditItem}
+      handleDeleteItem={handleDeleteItem}
+      handleEditItem={handleEditItem}
       />
       <div className="smaSeparator"></div>
       </div>
     </div>
     )
-  }
 }
